@@ -25,10 +25,6 @@ export class TestCase {
         continue;
       }
 
-      if (!method.match(/^(hf)|(ef)/)) {
-        continue;
-      }
-
       if (!this[method] || typeof this[method] !== "function") {
         continue;
       }
