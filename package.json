@@ -1,0 +1,20 @@
+{
+  "name": "akriunit",
+  "version": "0.1.0",
+  "description": "Lightweight and beginner-friendly JS unit testing based on PHPUnit workflow",
+  "homepage": "https://github.com/JWabbit017/AkriUnit#readme",
+  "bugs": {
+    "url": "https://github.com/JWabbit017/AkriUnit/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JWabbit017/AkriUnit.git"
+  },
+  "license": "MIT",
+  "author": "Raiyen \"JM\" Janszen",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "akriunit": "node dist/index.js tests"
+  }
+}
