@@ -1,6 +1,6 @@
 {
   "name": "akriunit",
-  "version": "0.2.1",
+  "version": "1.0.0",
   "description": "Lightweight and beginner-friendly JS unit testing based on PHPUnit workflow",
   "homepage": "https://github.com/JWabbit017/AkriUnit#readme",
   "bugs": {
