@@ -13,8 +13,8 @@
   "license": "MIT",
   "author": "Raiyen \"JM\" Janszen",
   "type": "module",
-  "exports": "./src/index.js",
+  "exports": "./dist/index.js",
   "bin": {
-    "akriunit": "./src/cli.js"
+    "akriunit": "./dist/cli.js"
   }
 }
