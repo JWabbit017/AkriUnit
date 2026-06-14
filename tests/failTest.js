@@ -1,4 +1,4 @@
-import { TestCase } from "../src/TestCase.js"
+import { TestCase } from "akriunit";
 
 function isEmpty(arr) {
   if (!(arr instanceof Array)) {

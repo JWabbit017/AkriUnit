@@ -30,12 +30,11 @@ export class AkriUnit {
   }
 
   async #setPath(path) {
-    if (!path) {
-      console.error(`ERROR: Argument #1 (path) must not be empty`);
-      exit(1);
-    }
-
     try {
+      if (!path) {
+        throw new Error("ERROR: Argument #1 (path) must not be empty");
+      }
+      
       await access(path, constants.R_OK | constants.W_OK);
     }
     catch(err) {
@@ -44,19 +43,17 @@ export class AkriUnit {
     }
 
     this.path = path;
-
-    return true;
   }
 
   #testReport() {
     if (this.failiures.length == 0) {
       console.log("OK");
     } else {
-      console.warn("Failiures!");
-
       for (const fail of this.failiures) {
         console.log("--" + fail);
       }
+
+      console.log("Failiures!");
     }
 
     console.log(
@@ -75,16 +72,17 @@ export class AkriUnit {
         !newStats?.failiures ||
         !newStats?.warnings
       ) {
-        throw "stdout passed valid JSON data, but not in the correct format. Please ensure your test class extends AkriUnit's TestCase class.";
+        console.trace("stdout passed valid JSON data, but not in the correct format. Please ensure your test class extends AkriUnit's TestCase class.");
+        exit(1);
       }
 
+      // the following lines are inside this try block because newStats loses definition after the catch block, even if it didn't execute said catch. Why???
+      
       this.failiures = this.failiures.concat(newStats.failiures);
 
       this.warnings = this.warnings.concat(newStats.warnings);
 
       this.successes += newStats.successes;
-
-      return true;
     }
     catch(err) {
       console.trace("ERROR: Output of test file " + file + " could not be parsed. Please make sure you instantiate your test class at the end of the file.");
@@ -112,8 +110,6 @@ export class AkriUnit {
     }
 
     this.#hasExecutedRun = true;
-  
-    return true;
   }
 
   #reportAndClean() {
