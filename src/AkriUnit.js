@@ -53,6 +53,10 @@ export class AkriUnit {
       console.log("OK");
     } else {
       console.warn("Failiures!");
+
+      for (const fail of this.failiures) {
+        console.log("--" + fail);
+      }
     }
 
     console.log(
@@ -98,8 +102,8 @@ export class AkriUnit {
 
       const name = file.substr(file.length - 3, 3);
   
-      if (typeof filter === "string" && filter !== "") {
-        if (!file.match(filter) && !name.match(filter)) {
+      if (typeof this.filter === "string" && this.filter !== "") {
+        if (!file.match(this.filter) && !name.match(this.filter)) {
           continue;
         }
       }

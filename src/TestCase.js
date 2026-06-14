@@ -3,17 +3,6 @@ export class TestCase {
   warnings = [];
   successes = 0;
   activeTestFn = '';
-  #ownMethods = [
-    "constructor",
-    "fail",
-    "ok",
-    "assertTrue",
-    "assertTruthy",
-    "assertFalse",
-    "assertFalsy",
-    "assertEquals",
-    "assertThrows",
-  ];
 
   constructor() {
     return this.test();
@@ -21,7 +10,7 @@ export class TestCase {
 
   test() {
     for (const method of Object.getOwnPropertyNames(Object.getPrototypeOf(this))) {      
-      if (this.#ownMethods.includes(method)) {
+      if (!method.match(/^(hf)|(ef)/i)) {
         continue;
       }
 
@@ -48,8 +37,7 @@ export class TestCase {
   }
 
   fail(err = "UNKNOWN - If invoking AkriTestCase.fail yourself, always add a message") {
-    this.failiures.push(`${this.activeTestFn}: ${err}`);
-    console.trace(`${this.activeTestFn}: ${err}`);
+    this.failiures.push(`${this.activeTestFn}: ${(new Error(err))?.stack}`);
     return false;
   }
 

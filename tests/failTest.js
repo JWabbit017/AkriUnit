@@ -8,7 +8,7 @@ function isEmpty(arr) {
   return arr.length == 0;
 };
 
-class ArrayPrototypeTest extends TestCase {
+class TestFailTest extends TestCase {
   hfIsEmpty() {
     const array = [];
     const fullArray = ["simon", "jarrett"];
@@ -16,12 +16,12 @@ class ArrayPrototypeTest extends TestCase {
     const result1 = isEmpty(array);
     const result2 = isEmpty(fullArray);
 
-    this.assertTrue(result1);
+    this.assertFalse(result1);
     this.assertFalse(result2);
   }
 
   efIsEmpty() {
-    const notAnArray = 593;
+    const notAnArray = [];
 
     const fn = () => {
       isEmpty(notAnArray);
@@ -31,4 +31,4 @@ class ArrayPrototypeTest extends TestCase {
   }
 }
 
-new ArrayPrototypeTest();
+new TestFailTest();
