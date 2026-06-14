@@ -16,7 +16,7 @@ npm i --save-dev akriunit
   - `TestCase.assertFalsy` - asserts a value as falsy as defined by ES2026
   - `TestCase.assertEquals` - evaluates two values as equal
   - `TestCase.assertThrows` - asserts that a callback function throws an error, optionally checking against a message
-  6. Run (or save in an npm script): `npm explore akriunit -- npm run akriunit {your test directory}` to run AkriUnit on all tests in the provided directory. You can provide a specific file name as a second argument to run only that test file.
+  6. Run (or save in an npm script): `node node_modules/akriunit/src/index.js {your test directory}` to run AkriUnit on all tests in the provided directory. You can provide a specific file name as a second argument to run only that test file.
 
   ## Patch log v0.2.1
   - Fixed failiures not emitting stack traces to console (rather embarrasing)
