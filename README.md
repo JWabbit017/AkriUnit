@@ -16,7 +16,11 @@ npm i --save-dev akriunit
   - `TestCase.assertThrows` - asserts that a callback function throws an error, optionally checking against a message
   6. Run `npx akriunit {test directory}` to run AkriUnit on all tests in the provided directory. You can optionally provide a specific file name as a second argument to run only that test file.
 
-  ## Patch log v0.2.1
-  - Fixed failiures not emitting stack traces to console (rather embarrasing)
-  - Filter now checks against file names either with or without extension
-  - This package will now only run test methods whose name starts with 'hf' or 'ef'
+## Changelog v1.0.0
+ - Added bin script, users can now run the test runner through `npx akriunit`
+ - Replaced 'main' entrypoint field with 'exports'
+ - Package entrypoint now exposes TestCase, which can now be imported as easily as `import { TestCase } from "akriunit"`
+ - Removed TestCase.isTruthy
+ - Removed TestCase.isFalsy
+ - Cleaned up (some of) my lazy code in TestCase & cli
+ - Changed published package from raw source to compressed dist
