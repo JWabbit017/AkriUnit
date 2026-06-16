@@ -1,29 +1,29 @@
 export class TestCase {
-  failiures = [];
-  warnings = [];
   successes = 0;
+  failiures = [];
+
   activeTestFn = "";
 
   constructor() {
     return this.test();
   }
 
-  test() {
+  async test() {
     for (const method of Object.getOwnPropertyNames(
       Object.getPrototypeOf(this),
     )) {
-      if (!method.match(/^(hf)|(ef)/i)) {
-        continue;
-      }
-
-      if (!this[method] || typeof this[method] !== "function") {
+      if (
+        !this[method] || 
+        typeof this[method] !== "function" ||
+        method === "constructor"
+      ) {
         continue;
       }
 
       this.activeTestFn = method;
 
       try {
-        this[method]();
+        await this[method]();
       } catch (err) {
         this.fail(err);
       }
@@ -32,10 +32,9 @@ export class TestCase {
     // intended to be captured by test runner file through stdout, not printed to terminal
     console.log(
       JSON.stringify({
-        failiures: this.failiures,
         successes: this.successes,
-        warnings: this.warnings,
-      }),
+        failiures: this.failiures
+      })
     );
   }
 
@@ -49,10 +48,10 @@ export class TestCase {
     this.successes++;
   }
 
-  assertEquals(arg1, arg2) {
+  assertEquals(actual, expected) {
     try {
-      if (arg1 !== arg2) {
-        return this.fail(`Failed to assert that ${arg1} equals ${arg2}`);
+      if (actual !== expected) {
+        return this.fail(`Failed to assert that '${actual}' equals expected '${expected}'`);
       }
     } catch (err) {
       return this.fail(err);
@@ -69,15 +68,15 @@ export class TestCase {
     return this.assertEquals(arg, false);
   }
 
-  assertThrows(fn, message = null) {
+  async assertThrows(fn, message = null) {
     if (typeof fn !== "function") {
-      this.fail(funcName, 'Argument "fn" must be a function');
+      return this.fail(funcName, 'Argument "fn" must be a callback');
     }
 
-    let pass = false;
+    let pass;
 
     try {
-      fn();
+      await fn();
     } catch (err) {
       pass = true;
 
