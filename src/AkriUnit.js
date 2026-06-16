@@ -5,17 +5,16 @@ import { exit } from "node:process";
 export class AkriUnit {
   successes = 0;
   failiures = [];
-  warnings = [];
 
   path;
   filter;
 
-  startTimeStamp;
+  hasExecutedRun;
 
-  #hasExecutedRun = false;
+  startTime;
 
   constructor(path = null, filter = null) {
-    this.startTimeStamp = Date.now();
+    this.startTime = Date.now();
     this.filter = filter;
     
     this.#executeTests(path);
@@ -26,13 +25,13 @@ export class AkriUnit {
 
     await this.#run();
 
-    await this.#reportAndClean();
+    await this.#thenReport();
   }
 
   async #setPath(path) {
     try {
       if (!path) {
-        throw new Error("ERROR: Argument #1 (path) must not be empty");
+        throw "ERROR: Argument #1 (path) must not be empty";
       }
       
       await access(path, constants.R_OK | constants.W_OK);
@@ -57,30 +56,27 @@ export class AkriUnit {
     }
 
     console.log(
-      `AkriUnit executed with ${this.successes} passed, ${this.failiures.length} failiures and ${this.warnings.length} warnings.`,
+      `AkriUnit executed with ${this.successes} passed, ${this.failiures.length} failiures.`,
     );
 
-    console.log(`Finished in ${(Date.now() - this.startTimeStamp) / 100}s`);
+    console.log(`Finished in ${(Date.now() - this.startTime) / 100}s`);
   }
 
-  async #updateTotalStats(error, stdout, stderr) {
+  async #updateTotalStats(error, stdout, stderr, file) {
     try {
       const newStats = JSON.parse(stdout);
 
       if (
         !newStats?.successes ||
-        !newStats?.failiures ||
-        !newStats?.warnings
+        typeof newStats?.failiures !== "object"
       ) {
-        console.trace("stdout passed valid JSON data, but not in the correct format. Please ensure your test class extends AkriUnit's TestCase class.");
+        console.trace(file + " passed valid JSON data, but not in the correct format. Please ensure your test class extends AkriUnit's TestCase class.");
         exit(1);
       }
 
       // the following lines are inside this try block because newStats loses definition after the catch block, even if it didn't execute said catch. Why???
       
       this.failiures = this.failiures.concat(newStats.failiures);
-
-      this.warnings = this.warnings.concat(newStats.warnings);
 
       this.successes += newStats.successes;
     }
@@ -106,17 +102,17 @@ export class AkriUnit {
         }
       }
   
-      await exec(`node ${this.path}/${file}`, async (err, stdout, stderr) => {await this.#updateTotalStats(err, stdout, stderr);});
+      await exec(`node ${this.path}/${file}`, async (err, stdout, stderr) => {await this.#updateTotalStats(err, stdout, stderr, file);});
     }
 
-    this.#hasExecutedRun = true;
+    this.hasExecutedRun = true;
   }
 
-  #reportAndClean() {
-    const isCompleted = setInterval(() => {
-      if (this.#hasExecutedRun) {
+  #thenReport() {
+    const interval = setInterval(() => {
+      if (this.hasExecutedRun) {
         this.#testReport();
-        isCompleted.close();
+        interval.close();
       }
     }, 100);
   }

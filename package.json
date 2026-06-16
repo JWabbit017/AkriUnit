@@ -1,6 +1,6 @@
 {
   "name": "akriunit",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Lightweight and beginner-friendly JS unit testing based on PHPUnit workflow",
   "homepage": "https://github.com/JWabbit017/AkriUnit#readme",
   "bugs": {
@@ -16,5 +16,8 @@
   "exports": "./dist/index.js",
   "bin": {
     "akriunit": "./dist/cli.js"
+  },
+  "scripts": {
+    "test-src": "node ./src/cli.js tests srcTest"
   }
 }
