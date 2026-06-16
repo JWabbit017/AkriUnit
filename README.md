@@ -17,11 +17,11 @@ npm i --save-dev akriunit
   6. Be sure to create an instance of your test class at the end of your file. You don't have to do anything with this instance, we just need to run TestCase's constructor.
   7. Run `npx akriunit {test directory}` to run AkriUnit on all tests in the provided directory. You can optionally provide a specific file name as a second argument to run only that test file.
 
-## Changelog v1.0.0
- - Added bin script, users can now run the test runner through `npx akriunit`
- - Replaced 'main' entrypoint field with 'exports'
- - Package entrypoint now exposes TestCase, which can now be imported as easily as `import { TestCase } from "akriunit"`
- - Removed TestCase.isTruthy
- - Removed TestCase.isFalsy
- - Cleaned up (some of) my lazy code in TestCase & cli
- - Changed published package from raw source to compressed dist
+## Changelog v1.0.1
+ - Added support for async callbacks in TestCase.assertThrows
+ - Added support for async test methods
+ - Removed catch block from test method execution - this is so any programming error in your test class don't get trapped by testrunner validation
+ - Removed warnings
+ - Added active test file to exception messages concerning test data formatting
+
+P.S. Designed & written exclusively by a human developer <3
