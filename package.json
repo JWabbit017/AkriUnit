@@ -16,5 +16,8 @@
   "exports": "./dist/index.js",
   "bin": {
     "akriunit": "./dist/cli.js"
+  },
+  "scripts": {
+    "test-src": "node ./src/cli.js tests srcTest"
   }
 }

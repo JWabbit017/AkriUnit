@@ -9,12 +9,13 @@ npm i --save-dev akriunit
  ``
  3. Create a directory, preferrably in the root of your project, to contain all your test files. Note that akriunit does not search recursively for test files - any and all test files must be flat in the same directory.
  4. In your test files, import TestCase (`import { TestCase } from "akriunit"`). Use this as the parent of your test class. Note that you may not define your own constructor.
- 5. In your test class, write public methods, their names always starting with 'hf' for happy flow or 'ef' for error flow, testing your source methods and assert their outcome using any of the following built-in assertions:
+ 5. In your test class, write public methods testing your source methods and assert their outcome using any of the following built-in assertions:
   - `TestCase.assertTrue` - evaluates a value as equal to true
   - `TestCase.assertFalse` - evaluates a value as equal to false
   - `TestCase.assertEquals` - evaluates two values as equal
   - `TestCase.assertThrows` - asserts that a callback function throws an error, optionally checking against a message
-  6. Run `npx akriunit {test directory}` to run AkriUnit on all tests in the provided directory. You can optionally provide a specific file name as a second argument to run only that test file.
+  6. Be sure to create an instance of your test class at the end of your file. You don't have to do anything with this instance, we just need to run TestCase's constructor.
+  7. Run `npx akriunit {test directory}` to run AkriUnit on all tests in the provided directory. You can optionally provide a specific file name as a second argument to run only that test file.
 
 ## Changelog v1.0.0
  - Added bin script, users can now run the test runner through `npx akriunit`
