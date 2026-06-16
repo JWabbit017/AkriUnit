@@ -2,7 +2,7 @@ export class TestCase {
   successes = 0;
   failiures = [];
 
-  activeTestFn = "";
+  activeTestFn;
 
   constructor() {
     return this.test();
@@ -22,11 +22,7 @@ export class TestCase {
 
       this.activeTestFn = method;
 
-      try {
-        await this[method]();
-      } catch (err) {
-        this.fail(err);
-      }
+      await this[method]();
     }
 
     // intended to be captured by test runner file through stdout, not printed to terminal
