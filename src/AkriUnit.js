@@ -48,11 +48,17 @@ export class AkriUnit {
     if (this.failiures.length == 0) {
       console.log("OK");
     } else {
+      let failstr = "AkriUnit test failiure report:\n\n";
       for (const fail of this.failiures) {
         console.log("--" + fail);
+        failstr += fail + "\n\n";
       }
 
       console.log("Failiures!");
+
+      this.generateFailReportFile(failstr);
+
+      console.log("Generated fail report at " + `${this.path}/aureport.txt`);
     }
 
     console.log(
@@ -62,12 +68,16 @@ export class AkriUnit {
     console.log(`Finished in ${(Date.now() - this.startTime) / 100}s`);
   }
 
+  async generateFailReportFile(fails = "") {
+    await writeFile(`${this.path}/aureport.txt`, fails);
+  }
+
   async #updateTotalStats(error, stdout, stderr, file) {
     try {
       const newStats = JSON.parse(stdout);
 
       if (
-        !newStats?.successes ||
+        typeof newStats?.successes !== "number" ||
         typeof newStats?.failiures !== "object"
       ) {
         console.trace(file + " passed valid JSON data, but not in the correct format. Please ensure your test class extends AkriUnit's TestCase class.");
