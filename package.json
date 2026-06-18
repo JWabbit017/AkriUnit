@@ -18,6 +18,9 @@
     "akriunit": "./dist/cli.js"
   },
   "scripts": {
-    "test-src": "node ./src/cli.js tests srcTest"
+    "test-dist": "npx akriunit tests",
+    "test-src": "node ./src/cli.js tests srcTest",
+    "test-seq": "node ./src/cli.js tests failTest && node ./src/cli.js tests test && node ./src/cli.js tests srcTest && npx akriunit tests test && npx akriunit tests srcTest && npx akriunit tests failTest",
+    "fulltest": "npm run test-dist && npm run test-src && npm run test-seq"
   }
 }
