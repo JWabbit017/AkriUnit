@@ -67,7 +67,7 @@ export class AkriUnit {
       const newStats = JSON.parse(stdout);
 
       if (
-        !newStats?.successes ||
+        typeof newStats?.successes !== "number" ||
         typeof newStats?.failiures !== "object"
       ) {
         console.trace(file + " passed valid JSON data, but not in the correct format. Please ensure your test class extends AkriUnit's TestCase class.");
