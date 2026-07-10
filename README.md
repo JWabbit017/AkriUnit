@@ -1,4 +1,4 @@
-## Note: This was written only for the purpose of introducing students to the concept of unit testing - please don't use this for any serious projects. Consider packages like Jest instead.
+## Note: This was written only for the purpose of introducing students to npm & the concept of unit testing - please don't use. Consider packages like Jest instead.
 
 ## Basic Usage
  1. Ensure you have Node.js v24.0.0 or higher installed on your system.
@@ -17,8 +17,8 @@ npm i --save-dev akriunit
   6. Be sure to create an instance of your test class at the end of your file. You don't have to do anything with this instance, we just need to run TestCase's constructor.
   7. Run `npx akriunit {test directory}` to run AkriUnit on all tests in the provided directory. You can optionally provide a specific file name as a second argument to run only that test file.
 
-## Changelog v1.0.2
- - Fixed issue where running tests with no successes would throw an internal error
- - Added failiure report file generation - this will be put in the test directory if any failiures occurred
+## Changelog v1.0.3
+ - Code cleanup in test runner
+ - Promisified test file execution - this avoids the possibility of generating a report before all filed have finished running
 
 P.S. Designed & written exclusively by a human developer <3

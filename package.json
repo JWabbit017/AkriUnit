@@ -1,6 +1,6 @@
 {
   "name": "akriunit",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Lightweight and beginner-friendly JS unit testing based on PHPUnit workflow",
   "homepage": "https://github.com/JWabbit017/AkriUnit#readme",
   "bugs": {
@@ -20,6 +20,7 @@
   "scripts": {
     "test-dist": "npx akriunit tests",
     "test-src": "node ./src/cli.js tests srcTest",
+    "test-src-fail": "node ./src/cli.js tests srcFailTest",
     "test-seq": "node ./src/cli.js tests failTest && node ./src/cli.js tests test && node ./src/cli.js tests srcTest && npx akriunit tests test && npx akriunit tests srcTest && npx akriunit tests failTest",
     "fulltest": "npm run test-dist && npm run test-src && npm run test-seq"
   }
