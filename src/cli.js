@@ -2,4 +2,6 @@
 
 import { AkriUnit } from "./AkriUnit.js";
 
-new AkriUnit(process.argv[2] ?? null, process.argv[3] ?? null);
+const testrunner = new AkriUnit(process.argv[3] ?? null);
+
+testrunner.executeTests(process.argv[2] ?? null);
