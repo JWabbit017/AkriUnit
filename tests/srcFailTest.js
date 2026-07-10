@@ -1,7 +1,7 @@
 import { TestCase } from "../src/index.js";
 import { isEmpty } from "../src/src_methods.js";
 
-class TestTest extends TestCase {
+class TestFailTest extends TestCase {
   hfIsEmpty() {
     const array = [];
     const fullArray = ["simon", "jarrett"];
@@ -9,12 +9,12 @@ class TestTest extends TestCase {
     const result1 = isEmpty(array);
     const result2 = isEmpty(fullArray);
 
-    this.assertTrue(result1);
+    this.assertFalse(result1);
     this.assertFalse(result2);
   }
 
   efIsEmpty() {
-    const notAnArray = 17;
+    const notAnArray = [];
 
     const fn = () => {
       isEmpty(notAnArray);
@@ -24,4 +24,4 @@ class TestTest extends TestCase {
   }
 }
 
-new TestTest();
+new TestFailTest();
