@@ -1,7 +1,9 @@
 import { TestCase } from "akriunit";
-import { isEmpty } from "../src/src_methods.js";
+import { isEmpty, a } from "../src/src_methods.js";
 
 class TestFailTest extends TestCase {
+  srcClass = {isEmpty, a};
+  
   hfIsEmpty() {
     const array = [];
     const fullArray = ["simon", "jarrett"];

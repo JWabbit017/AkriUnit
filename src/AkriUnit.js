@@ -6,6 +6,7 @@ import { promisify } from "node:util";
 export class AkriUnit {
   successes = 0;
   failiures = [];
+  uncovered = [];
 
   path;
   filter;
@@ -45,12 +46,25 @@ export class AkriUnit {
   }
 
   async testReport() {
+    if (this.successes === 0 && this.failiures.length === 0) {
+      console.warn("No tests found!");
+      return;
+    }
+    
     if (this.failiures.length == 0) {
       console.log("OK");
 
       await this.deleteFailReportFile();
     } else {
       this.outputFailReport();
+    }
+
+    if (this.uncovered.length > 0) {
+      console.warn("-- Uncovered methods:");
+
+      for (const uncovered of this.uncovered) {
+        console.warn("    - " + uncovered);
+      }
     }
 
     console.log(
@@ -93,21 +107,24 @@ export class AkriUnit {
 
       this.failiures = this.failiures.concat(newStats.failiures);
 
+      this.uncovered = this.uncovered.concat(newStats.uncovered);
+
       this.successes += newStats.successes;
     } catch (err) {
-      console.fail(
+      console.error(
         err ??
           `Output of test file ${file} could not be parsed. Please make sure you instantiate your test class at the end of the file.`,
       );
     }
   }
 
-  decodeFileOutput(stdout) {
+  decodeFileOutput(stdout) {    
     const newStats = JSON.parse(stdout);
 
     if (
       typeof newStats?.successes !== "number" ||
-      typeof newStats?.failiures !== "object"
+      !Array.isArray(newStats?.failiures) ||
+      !Array.isArray(newStats?.uncovered)
     ) {
       throw new Error(
         "File passed valid JSON data, but not in the correct format. Please ensure your test class extends AkriUnit's TestCase class.",

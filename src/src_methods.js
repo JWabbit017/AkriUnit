@@ -4,4 +4,8 @@ export function isEmpty(arr) {
   }
 
   return arr.length == 0;
-};
+}
+
+export function a() {
+  return "hi";
+}

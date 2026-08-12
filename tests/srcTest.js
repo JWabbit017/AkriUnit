@@ -1,5 +1,5 @@
 import { TestCase } from "../src/index.js";
-import { isEmpty } from "../src/src_methods.js";
+import { isEmpty, a } from "../src/src_methods.js";
 
 class TestTest extends TestCase {
   hfIsEmpty() {
@@ -22,6 +22,10 @@ class TestTest extends TestCase {
 
     this.assertThrows(fn, null);
   }
+
+  hfA() {
+    this.assertEquals(a(), "hi");
+  }
 }
 
-new TestTest();
+new TestTest({isEmpty, a});

@@ -1,0 +1,18 @@
+AkriUnit test failiure report:
+
+hfIsEmpty: Error: Failed to assert that 'true' equals expected 'false'
+    at TestFailTest.fail (file:///C:/Users/raiye/Documents/XAMPP%20Temp/htdocs/AkriUnit/src/TestCase.js:86:50)
+    at TestFailTest.assertEquals (file:///C:/Users/raiye/Documents/XAMPP%20Temp/htdocs/AkriUnit/src/TestCase.js:96:21)
+    at TestFailTest.assertFalse (file:///C:/Users/raiye/Documents/XAMPP%20Temp/htdocs/AkriUnit/src/TestCase.js:110:17)
+    at TestFailTest.hfIsEmpty (file:///C:/Users/raiye/Documents/XAMPP%20Temp/htdocs/AkriUnit/tests/srcFailTest.js:12:10)
+    at TestFailTest.test (file:///C:/Users/raiye/Documents/XAMPP%20Temp/htdocs/AkriUnit/src/TestCase.js:52:25)
+    at new TestCase (file:///C:/Users/raiye/Documents/XAMPP%20Temp/htdocs/AkriUnit/src/TestCase.js:39:10)
+    at new TestFailTest (file:///C:/Users/raiye/Documents/XAMPP%20Temp/htdocs/AkriUnit/tests/srcFailTest.js:4:1)
+    at file:///C:/Users/raiye/Documents/XAMPP%20Temp/htdocs/AkriUnit/tests/srcFailTest.js:27:1
+    at ModuleJob.run (node:internal/modules/esm/module_job:327:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:663:26)
+
+efIsEmpty: Error: Failed to assert that this test throws an exception
+    at TestFailTest.fail (file:///C:/Users/raiye/Documents/XAMPP%20Temp/htdocs/AkriUnit/src/TestCase.js:86:50)
+    at TestFailTest.assertThrows (file:///C:/Users/raiye/Documents/XAMPP%20Temp/htdocs/AkriUnit/src/TestCase.js:133:21)
+

@@ -1,7 +1,7 @@
 import { TestCase } from "../src/index.js";
-import { isEmpty } from "../src/src_methods.js";
+import { isEmpty, a } from "../src/src_methods.js";
 
-class TestFailTest extends TestCase {
+class TestFailTest extends TestCase {  
   hfIsEmpty() {
     const array = [];
     const fullArray = ["simon", "jarrett"];
@@ -24,4 +24,4 @@ class TestFailTest extends TestCase {
   }
 }
 
-new TestFailTest();
+new TestFailTest({isEmpty, a});
