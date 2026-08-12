@@ -6,7 +6,6 @@ import { promisify } from "node:util";
 export class AkriUnit {
   successes = 0;
   failiures = [];
-  uncovered = [];
 
   path;
   filter;
@@ -51,20 +50,12 @@ export class AkriUnit {
       return;
     }
     
-    if (this.failiures.length == 0) {
+    if (this.failiures.length === 0) {
       console.log("OK");
 
       await this.deleteFailReportFile();
     } else {
       this.outputFailReport();
-    }
-
-    if (this.uncovered.length > 0) {
-      console.warn("-- Uncovered methods:");
-
-      for (const uncovered of this.uncovered) {
-        console.warn("    - " + uncovered);
-      }
     }
 
     console.log(
@@ -75,12 +66,13 @@ export class AkriUnit {
   }
 
   outputFailReport() {
-    let failstr = "AkriUnit test failiure report:\n\n";
+    let failstr = "";
 
     for (const fail of this.failiures) {
-      console.error("--" + fail);
-      failstr += fail + "\n\n";
+      failstr += `--${fail}\n\n`;
     }
+
+    console.error(failstr);
 
     console.error("Failiures!");
 
@@ -107,8 +99,6 @@ export class AkriUnit {
 
       this.failiures = this.failiures.concat(newStats.failiures);
 
-      this.uncovered = this.uncovered.concat(newStats.uncovered);
-
       this.successes += newStats.successes;
     } catch (err) {
       console.error(
@@ -123,8 +113,7 @@ export class AkriUnit {
 
     if (
       typeof newStats?.successes !== "number" ||
-      !Array.isArray(newStats?.failiures) ||
-      !Array.isArray(newStats?.uncovered)
+      !Array.isArray(newStats?.failiures)
     ) {
       throw new Error(
         "File passed valid JSON data, but not in the correct format. Please ensure your test class extends AkriUnit's TestCase class.",

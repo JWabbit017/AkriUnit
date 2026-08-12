@@ -1,5 +1,5 @@
 import { TestCase } from "akriunit";
-import { isEmpty, a } from "../src/src_methods.js";
+import { src } from "../src/src_methods.js";
 
 class TestFailTest extends TestCase {
   srcClass = {isEmpty, a};
@@ -8,8 +8,8 @@ class TestFailTest extends TestCase {
     const array = [];
     const fullArray = ["simon", "jarrett"];
 
-    const result1 = isEmpty(array);
-    const result2 = isEmpty(fullArray);
+    const result1 = src.isEmpty(array);
+    const result2 = src.isEmpty(fullArray);
 
     this.assertFalse(result1);
     this.assertFalse(result2);
@@ -19,11 +19,11 @@ class TestFailTest extends TestCase {
     const notAnArray = [];
 
     const fn = () => {
-      isEmpty(notAnArray);
+      src.isEmpty(notAnArray);
     };
 
     this.assertThrows(fn, null);
   }
 }
 
-new TestFailTest();
+new TestFailTest(new src());

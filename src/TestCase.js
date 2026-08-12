@@ -3,11 +3,6 @@ export class TestCase {
   failiures = [];
 
   activeTestFn;
-
-  srcClass = {};
-  srcMethods = [];
-  coveredSrcMethods = [];
-  uncoveredSrcMethods = [];
   
   disallowedMethods = [
     "constructor",
@@ -31,10 +26,8 @@ export class TestCase {
     "assertThrows"
   ]
 
-  constructor(srcClass = {}) {
+  constructor() {
     if (typeof this?.setUp === "function") this.setUp();
-
-    this.srcMethods = this.#getMethods(srcClass);
     
     this.test();
   }
@@ -43,19 +36,7 @@ export class TestCase {
     for (const method of this.#getMethods(this)) {
       this.activeTestFn = method;
 
-      for (const srcMethod of this.srcMethods) {
-        if (String(this[method]).match(srcMethod + '()')) {
-          this.coveredSrcMethods.push(srcMethod);
-        }
-      }
-
       await this[method]();
-    }
-
-    for (const method of this.srcMethods) {
-      if (!this.coveredSrcMethods.includes(method)) {
-        this.uncoveredSrcMethods.push(method);
-      }
     }
 
     // intended to be captured by test runner file through stdout, not printed to terminal
@@ -63,7 +44,6 @@ export class TestCase {
       JSON.stringify({
         successes: this.successes,
         failiures: this.failiures,
-        uncovered: this.uncoveredSrcMethods
       })
     );
 
@@ -72,7 +52,7 @@ export class TestCase {
 
   #getMethods(object) {
     const methods = Object.getOwnPropertyNames(
-      Object.getPrototypeOf(object) ?? object
+      Object.getPrototypeOf(object)
     );
 
     methods.filter(value => typeof this[value] === "function");
