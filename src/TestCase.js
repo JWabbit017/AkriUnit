@@ -1,90 +1,100 @@
 export class TestCase {
-  successes = 0;
-  failiures = [];
+  successes = [];
+  failures = {};
 
   activeTestFn;
+  assertionIndex = 0;
 
   constructor() {
-    return this.test();
+    if (typeof this?.setUp === "function") this.setUp();
+    
+    this.test();
   }
 
   async test() {
-    for (const method of Object.getOwnPropertyNames(
-      Object.getPrototypeOf(this),
-    )) {
-      if (
-        !this[method] || 
-        typeof this[method] !== "function" ||
-        method === "constructor"
-      ) {
-        continue;
-      }
-
+    for (const method of this.#getMethods(this)) {            
       this.activeTestFn = method;
 
-      await this[method]();
+      this.assertionIndex = 0;
+      
+      let providedArg = null;
+
+      if (typeof this?.globalProvider === "function") providedArg = this.globalProvider();
+
+      await this[method](providedArg);
     }
 
     // intended to be captured by test runner file through stdout, not printed to terminal
     console.log(
       JSON.stringify({
         successes: this.successes,
-        failiures: this.failiures
+        failures: this.failures,
       })
     );
+
+    if (typeof this?.tearDown === "function") this?.tearDown();
+  }
+
+  #getMethods(object) {
+    // intentionally not getting prototype to avoid including assertion methods
+    let methods = Object.getOwnPropertyNames(
+      Object.getPrototypeOf(object)
+    );
+
+    methods = methods.filter(value => value.startsWith("test"));
+
+    // distill to array of only methods
+    return methods.filter(value => typeof this[value] === "function");
+  }
+
+  #getAssertionIndexedName() {
+    return `${this.activeTestFn}#${this.assertionIndex++}`;
   }
 
   fail(
     err = "UNKNOWN - If invoking AkriTestCase.fail yourself, always add a message",
   ) {
-    this.failiures.push(`${this.activeTestFn}: ${new Error(err)?.stack}`);
+    this.failures[this.#getAssertionIndexedName()] = err instanceof Error ? err?.stack : new Error(err)?.stack;
   }
 
   ok() {
-    this.successes++;
+    this.successes.push(this.#getAssertionIndexedName());
   }
 
   assertEquals(actual, expected) {
     try {
       if (actual !== expected) {
-        return this.fail(`Failed to assert that '${actual}' equals expected '${expected}'`);
+        return this.fail(new Error(`Failed to assert that actual '${actual}' equals expected '${expected}'`));
       }
     } catch (err) {
       return this.fail(err);
     }
 
-    return this.ok();
+    this.ok();
   }
 
   assertTrue(arg) {
-    return this.assertEquals(arg, true);
+    this.assertEquals(arg, true);
   }
 
   assertFalse(arg) {
-    return this.assertEquals(arg, false);
+    this.assertEquals(arg, false);
   }
 
   async assertThrows(fn, message = null) {
     if (typeof fn !== "function") {
-      return this.fail(funcName, 'Argument "fn" must be a callback');
+      return this.fail('Argument "fn" must be a callback');
     }
-
-    let pass;
 
     try {
       await fn();
-    } catch (err) {
-      pass = true;
 
-      if (message !== null && err !== message) {
+      this.fail(new Error(`Failed to assert that this test throws an exception`));
+    } catch (err) {
+      if (message !== null && err.message !== message) {
         return this.fail(
-          `Failed to assert that exception '${err}' matches expected exception '${message}'`,
+          new Error(`Failed to assert that exception '${err}' matches expected exception '${message}'`),
         );
-        pass = false;
-      }
-    } finally {
-      if (!pass) {
-        return this.fail(`Failed to assert that this test throws an exception`);
       }
 
       return this.ok();
