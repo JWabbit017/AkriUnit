@@ -24,4 +24,4 @@ class TestFailTest extends TestCase {
   }
 }
 
-new TestFailTest(new src());
+new TestFailTest();

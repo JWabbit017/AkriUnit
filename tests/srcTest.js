@@ -28,4 +28,4 @@ class TestTest extends TestCase {
   }
 }
 
-new TestTest(new src());
+new TestTest();

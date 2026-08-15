@@ -1,7 +1,12 @@
 #!/usr/bin/env node
 
-import { AkriUnit } from "./AkriUnit.js";
+import { TestRunner } from "./TestRunner.js";
+import { exit } from "node:process";
+import packageData from "../package.json" with { type: "json" };
 
-const testrunner = new AkriUnit(process.argv[3] ?? null);
+if (process.argv.includes('-v')) {
+  console.log(`AkriUnit v${packageData.version} by JM Janszen`);
+  exit(0);
+}
 
-testrunner.executeTests(process.argv[2] ?? null);
+new TestRunner(process.argv[3] ?? null).run(process.argv[2] ?? null);

@@ -1,9 +1,7 @@
 import { TestCase } from "akriunit";
 import { src } from "../src/src_methods.js";
 
-class TestFailTest extends TestCase {
-  srcClass = {isEmpty, a};
-  
+class TestFailTest extends TestCase { 
   hfIsEmpty() {
     const array = [];
     const fullArray = ["simon", "jarrett"];
@@ -26,4 +24,4 @@ class TestFailTest extends TestCase {
   }
 }
 
-new TestFailTest(new src());
+new TestFailTest();
