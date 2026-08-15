@@ -1,23 +1,23 @@
 import { TestCase } from "akriunit";
-import { isEmpty } from "../src/src_methods.js";
+import { src } from "../src/src_methods.js";
 
-class TestFailTest extends TestCase {
-  hfIsEmpty() {
+class TestFailTest extends TestCase { 
+  testhfIsEmpty() {
     const array = [];
     const fullArray = ["simon", "jarrett"];
 
-    const result1 = isEmpty(array);
-    const result2 = isEmpty(fullArray);
+    const result1 = src.isEmpty(array);
+    const result2 = src.isEmpty(fullArray);
 
     this.assertFalse(result1);
     this.assertFalse(result2);
   }
 
-  efIsEmpty() {
+  testefIsEmpty() {
     const notAnArray = [];
 
     const fn = () => {
-      isEmpty(notAnArray);
+      src.isEmpty(notAnArray);
     };
 
     this.assertThrows(fn, null);
