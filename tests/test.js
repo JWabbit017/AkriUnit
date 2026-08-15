@@ -2,7 +2,7 @@ import { TestCase } from "akriunit";
 import { src } from "../src/src_methods.js";
 
 class ArrayPrototypeTest extends TestCase {  
-  hfIsEmpty() {
+  testhfIsEmpty() {
     const array = [];
     const fullArray = ["simon", "jarrett"];
 
@@ -13,7 +13,7 @@ class ArrayPrototypeTest extends TestCase {
     this.assertFalse(result2);
   }
 
-  efIsEmpty() {
+  testefIsEmpty() {
     const notAnArray = 593;
 
     const fn = () => {

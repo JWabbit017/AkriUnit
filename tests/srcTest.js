@@ -2,7 +2,7 @@ import { TestCase } from "../src/index.js";
 import { src } from "../src/src_methods.js";
 
 class TestTest extends TestCase {
-  hfIsEmpty() {
+  testhfIsEmpty() {
     const array = [];
     const fullArray = ["simon", "jarrett"];
 
@@ -13,7 +13,7 @@ class TestTest extends TestCase {
     this.assertFalse(result2);
   }
 
-  efIsEmpty() {
+  testefIsEmpty() {
     const notAnArray = 17;
 
     const fn = () => {
@@ -23,7 +23,7 @@ class TestTest extends TestCase {
     this.assertThrows(fn, null);
   }
 
-  hfA() {
+  testhfA() {
     this.assertEquals(src.a(), "hi");
   }
 }

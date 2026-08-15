@@ -3,6 +3,7 @@ export class TestCase {
   failures = {};
 
   activeTestFn;
+  assertionIndex = 0;
 
   constructor() {
     if (typeof this?.setUp === "function") this.setUp();
@@ -14,7 +15,13 @@ export class TestCase {
     for (const method of this.#getMethods(this)) {            
       this.activeTestFn = method;
 
-      await this[method]();
+      this.assertionIndex = 0;
+      
+      let providedArg = null;
+
+      if (typeof this?.globalProvider === "function") providedArg = this.globalProvider();
+
+      await this[method](providedArg);
     }
 
     // intended to be captured by test runner file through stdout, not printed to terminal
@@ -34,24 +41,14 @@ export class TestCase {
       Object.getPrototypeOf(object)
     );
 
-    methods = methods.filter(value => value !== "constructor");
+    methods = methods.filter(value => value.startsWith("test"));
 
     // distill to array of only methods
     return methods.filter(value => typeof this[value] === "function");
   }
 
   #getAssertionIndexedName() {
-    let index = 0;
-    
-    for (const method in this.failures) {
-      if (method.match(this.activeTestFn)) index++;
-    }
-
-    for (const method of this.successes) {
-      if (method.match(this.activeTestFn)) index++;
-    }
-
-    return `${this.activeTestFn}#${index}`;
+    return `${this.activeTestFn}#${this.assertionIndex++}`;
   }
 
   fail(

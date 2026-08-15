@@ -105,7 +105,7 @@ export class TestRunner {
   }
 
   suiteEmpty() {
-    return this.successes === 0 && this.suiteSuccessful();
+    return this.successes.length === 0 && this.suiteSuccessful();
   }
 
   async deleteFailReportFile(reportPath) {
@@ -139,11 +139,11 @@ export class TestRunner {
     const newStats = JSON.parse(stdout);
 
     if (
-      Array.isArray(newStats?.succcesses) ||
+      !Array.isArray(newStats?.successes) ||
       typeof newStats?.failures !== "object"
     ) {
       throw new Error(
-        this.fail("File passed valid JSON data, but not in the correct format. Please ensure your test class extends AkriUnit's TestCase class.")
+        "File passed valid JSON data, but not in the correct format. Please ensure your test class extends AkriUnit's TestCase class."
       );
     }
 
